@@ -1,0 +1,21 @@
+== Changelog ==
+
+= 1.0.5 =
+
+* 2023-13-07
+* Added Storage option
+* Added some help texts
+* Some corrections
+
+= 1.0.1 =
+
+* 2023-23-06
+* Added inactive plugins and themes
+* Added WordPress & PHP version selectors
+* Added some help texts
+* Some corrections
+
+= 1.0 =
+
+* 2023-16-06
+* First version.
