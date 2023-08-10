@@ -8,4 +8,4 @@ Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we 
 ## Requirements
 
 - WordPress 5.9+
-- PHP 5.6+
+- PHP 5.9+
