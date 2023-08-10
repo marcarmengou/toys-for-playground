@@ -3,9 +3,9 @@
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
 Description: Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we have the "Cloner" and "Generator" toys.
-Version: 1.0.5
+Version: 1.0.6
 Requires at least: 5.9
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 5.6
 Tested up to PHP: 8.2
 Author: Marc Armengou
@@ -13,6 +13,9 @@ Author URI: https://www.marcarmengou.com/
 Text Domain: toys-for-playground
 License: GPL2
 */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 
 // Add settings link to plugin page
 function toys_add_settings_link($links) {
@@ -87,7 +90,7 @@ function toys_cloner_page() {
     echo "<h1>Cloner</h1>";
 
     // Retrieve all plugins and themes, both active and inactive.
-    function wpg_get_all_plugins() {
+    function toyspg_get_all_plugins() {
         $all_plugins = get_plugins();
         $active_plugins = get_option('active_plugins', []);
         $plugins_data = ['active' => [], 'inactive' => []];
@@ -110,7 +113,7 @@ function toys_cloner_page() {
         return $plugins_data;
     }
 
-    function wpg_get_all_themes() {
+    function toyspg_get_all_themes() {
         $all_themes = wp_get_themes();
         $active_theme = wp_get_theme();
         $themes_data = ['active' => [], 'inactive' => []];
@@ -132,9 +135,9 @@ function toys_cloner_page() {
     }
 
     // Render the plugin configuration page.
-    function wpg_render_admin_page() {
-        $plugins = wpg_get_all_plugins();
-        $themes = wpg_get_all_themes();
+    function toyspg_render_admin_page() {
+        $plugins = toyspg_get_all_plugins();
+        $themes = toyspg_get_all_themes();
 
         // Define WordPress and PHP versions.
         $wp_versions = ['5.9', '6.0', '6.1', '6.2', 'latest'];
@@ -150,25 +153,25 @@ function toys_cloner_page() {
             <h2>Active Plugins</h2>
             <p>This list shows all the <strong>active plugins</strong> of your WordPress installation, which will appear checked by default.</p>
             <?php foreach($plugins['active'] as $plugin): ?>
-                <input type="checkbox" name="plugins[]" value="<?= esc_attr($plugin['slug']) ?>" checked /> <?= esc_html($plugin['Name']) ?><br/>
+                <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" checked /> <?php echo esc_html($plugin['Name']) ?><br/>
             <?php endforeach; ?>
 
             <h2>Inactive Plugins</h2>
             <p>This list shows all the <strong>inactive plugins</strong> of your WordPress installation, which will appear unchecked by default.</p>
             <?php foreach($plugins['inactive'] as $plugin): ?>
-                <input type="checkbox" name="plugins[]" value="<?= esc_attr($plugin['slug']) ?>" /> <?= esc_html($plugin['Name']) ?><br/>
+                <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" /> <?php echo esc_html($plugin['Name']) ?><br/>
             <?php endforeach; ?>
 
             <h2>Active Theme</h2>
             <p>This list shows all the <strong>active themes</strong> of your WordPress installation, which will appear checked by default.</p>
             <?php foreach($themes['active'] as $theme): ?>
-                <input type="checkbox" name="themes[]" value="<?= esc_attr($theme['slug']) ?>" checked /> <?= esc_html($theme['name']) ?><br/>
+                <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" checked /> <?php echo esc_html($theme['name']) ?><br/>
             <?php endforeach; ?>
 
             <h2>Inactive Themes</h2>
             <p>This list shows all the <strong>inactive themes</strong> of your WordPress installation, which will appear unchecked by default.</p>
             <?php foreach($themes['inactive'] as $theme): ?>
-                <input type="checkbox" name="themes[]" value="<?= esc_attr($theme['slug']) ?>" /> <?= esc_html($theme['name']) ?><br/>
+                <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" /> <?php echo esc_html($theme['name']) ?><br/>
             <?php endforeach; ?>
 
             <h2>WordPress Version</h2>
@@ -176,7 +179,7 @@ function toys_cloner_page() {
             <select name="wp_version">
                 <option value="">WP Version</option>
                 <?php foreach($wp_versions as $version): ?>
-                    <option value="<?= esc_attr($version) ?>"><?= esc_html($version) ?></option>
+                    <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                 <?php endforeach; ?>
             </select>
 
@@ -185,7 +188,7 @@ function toys_cloner_page() {
             <select name="php_version">
                 <option value="">PHP Version</option>
                 <?php foreach($php_versions as $version): ?>
-                    <option value="<?= esc_attr($version) ?>"><?= esc_html($version) ?></option>
+                    <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                 <?php endforeach; ?>
             </select>
 
@@ -224,17 +227,17 @@ function toys_cloner_page() {
             <script>
                 var url = "https://playground.wordpress.net/?";
                 <?php foreach((array)$_POST['plugins'] as $plugin_slug): ?>
-                    url += "plugin=<?= esc_js(sanitize_key($plugin_slug)) ?>&";
+                    url += "plugin=<?php echo esc_js(sanitize_key($plugin_slug)) ?>&";
                 <?php endforeach; ?>
                 <?php foreach((array)$_POST['themes'] as $theme_slug): ?>
-                    url += "theme=<?= esc_js(sanitize_key($theme_slug)) ?>&";
+                    url += "theme=<?php echo esc_js(sanitize_key($theme_slug)) ?>&";
                 <?php endforeach; ?>
 
-                if ("<?= sanitize_text_field($_POST['wp_version']) ?>" !== "") {
-                    url += "wp=<?= esc_js(sanitize_text_field($_POST['wp_version'])) ?>&";
+                if ("<?php echo sanitize_text_field($_POST['wp_version']) ?>" !== "") {
+                    url += "wp=<?php echo esc_js(sanitize_text_field($_POST['wp_version'])) ?>&";
                 }
-                if ("<?= sanitize_text_field($_POST['php_version']) ?>" !== "") {
-                    url += "php=<?= esc_js(sanitize_text_field($_POST['php_version'])) ?>&";
+                if ("<?php echo sanitize_text_field($_POST['php_version']) ?>" !== "") {
+                    url += "php=<?php echo esc_js(sanitize_text_field($_POST['php_version'])) ?>&";
                 }
 
                 url += "url=/wp-admin/index.php&mode=seamless";
@@ -251,7 +254,7 @@ function toys_cloner_page() {
         echo ob_get_clean();
     }
 
-    wpg_render_admin_page();
+    toyspg_render_admin_page();
 
     echo "</div>";
 }
@@ -330,7 +333,7 @@ function toys_generator_page() {
                 <select name="wp_version">
                     <option value="">WP version</option>
                     <?php foreach ($wp_versions as $version): ?>
-                        <option value="<?= esc_attr($version) ?>"><?= esc_html($version) ?></option>
+                        <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                     <?php endforeach; ?>
                 </select>
 
@@ -339,15 +342,15 @@ function toys_generator_page() {
                 <select name="php_version">
                     <option value="">Select PHP version</option>
                     <?php foreach ($php_versions as $version): ?>
-                        <option value="<?= esc_attr($version) ?>"><?= esc_html($version) ?></option>
+                        <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                     <?php endforeach; ?>
                 </select>
 
                 <h2>Storage</h2>
                 <p>Select the type of storage for the WordPress Playground.</p>
-                <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" <?= $storage_temporary ? 'checked' : '' ?>>
+                <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" <?php echo $storage_temporary ? 'checked' : '' ?>>
                 <label for="temporary">Temporary (The changes are lost when refreshing the page)</label><br>
-                <input type="checkbox" id="persistent" name="storage_persistent" value="persistent" <?= $storage_persistent ? 'checked' : '' ?>>
+                <input type="checkbox" id="persistent" name="storage_persistent" value="persistent" <?php echo $storage_persistent ? 'checked' : '' ?>>
                 <label for="persistent">Persistent (The changes are not lost when refreshing, but they are when the tab is closed, even if the browser is still open)</label><br>
                 <br/>
 
