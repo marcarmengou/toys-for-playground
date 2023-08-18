@@ -3,7 +3,7 @@
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
 Description: Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we have the "Cloner" and "Generator" toys.
-Version: 1.0.6
+Version: 1.0.7
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 5.6
@@ -150,6 +150,7 @@ function toys_cloner_page() {
         </div>
 
         <form method="post" action="">
+        <?php wp_nonce_field("toys_for_playground_action", "toys_for_playground_nonce"); ?>
             <h2>Active Plugins</h2>
             <p>This list shows all the <strong>active plugins</strong> of your WordPress installation, which will appear checked by default.</p>
             <?php foreach($plugins['active'] as $plugin): ?>
@@ -223,13 +224,15 @@ function toys_cloner_page() {
             <p>This will open a new window in your browser. If it doesn't happen, <strong>allow opening pop-up windows from your browser</strong>.</p>
             <input type="submit" name="generate" class="button button-primary" value="Clone" />
         </form>
-        <?php if(isset($_POST['generate'])): ?>
+        <?php if (current_user_can('manage_options') && isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action")): ?>
             <script>
                 var url = "https://playground.wordpress.net/?";
-                <?php foreach((array)$_POST['plugins'] as $plugin_slug): ?>
+                <?php $_POST['plugins'] = array_map('sanitize_text_field', (array) $_POST['plugins']);
+foreach($_POST['plugins'] as $plugin_slug): ?>
                     url += "plugin=<?php echo esc_js(sanitize_key($plugin_slug)) ?>&";
                 <?php endforeach; ?>
-                <?php foreach((array)$_POST['themes'] as $theme_slug): ?>
+                <?php $_POST['themes'] = array_map('sanitize_text_field', (array) $_POST['themes']);
+foreach($_POST['themes'] as $theme_slug): ?>
                     url += "theme=<?php echo esc_js(sanitize_key($theme_slug)) ?>&";
                 <?php endforeach; ?>
 
@@ -268,11 +271,11 @@ function toys_generator_page() {
     $storage_temporary = true;
     $storage_persistent = false;
 
-    if (isset($_POST['generate'])) {
-        $selected_plugins = isset($_POST['plugins']) ? explode(',', $_POST['plugins'][0]) : [];
-        $selected_themes = isset($_POST['themes']) ? explode(',', $_POST['themes'][0]) : [];
-        $selected_wp_version = isset($_POST['wp_version']) ? $_POST['wp_version'] : '';
-        $selected_php_version = isset($_POST['php_version']) ? $_POST['php_version'] : '';
+    if ( isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action") ) {
+        $selected_plugins = isset($_POST['plugins']) ? explode(',', sanitize_text_field($_POST['plugins'][0])) : [];
+        $selected_themes = isset($_POST['themes']) ? explode(',', sanitize_text_field($_POST['themes'][0])) : [];
+        $selected_wp_version = isset($_POST['wp_version']) ? sanitize_text_field($_POST['wp_version']) : '';
+        $selected_php_version = isset($_POST['php_version']) ? sanitize_text_field($_POST['php_version']) : '';
         $selected_storage_temporary = isset($_POST['storage_temporary']) ? true : false;
         $selected_storage_persistent = isset($_POST['storage_persistent']);
 
@@ -320,6 +323,7 @@ function toys_generator_page() {
             <h2>Plugins</h2>
             <p>Enter the slugs of the plugins you want to include in WordPress Playground. Separated by comma. No spaces.</p>
             <form method="post" action="">
+        <?php wp_nonce_field("toys_for_playground_action", "toys_for_playground_nonce"); ?>
                 <input type="text" name="plugins[]" placeholder="Enter plugin slug" /><br/>
                 <!-- Add more input fields if needed for additional plugins -->
 

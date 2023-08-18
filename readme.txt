@@ -2,10 +2,10 @@
 Contributors: marc4
 Tags: playground
 Requires at least: 5.9
-Tested: 6.3
+Tested up to: 6.3
 Requires PHP: 5.9
 Tested PHP: 8.2
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,12 @@ Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we 
 2. Activate the plugin through the Plugins menu in WordPress
 
 == Changelog ==
+
+= 1.0.7 =
+
+* 2023-17-08
+* Security improvements
+* Some corrections
 
 = 1.0.6 =
 
