@@ -3,7 +3,7 @@
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
 Description: Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we have the "Cloner" and "Generator" toys.
-Version: 1.0.7
+Version: 1.0.8
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 5.6
@@ -236,16 +236,17 @@ foreach($_POST['themes'] as $theme_slug): ?>
                     url += "theme=<?php echo esc_js(sanitize_key($theme_slug)) ?>&";
                 <?php endforeach; ?>
 
-                if ("<?php echo sanitize_text_field($_POST['wp_version']) ?>" !== "") {
+                if ("<?php echo esc_html(sanitize_text_field($_POST['wp_version'])) ?>" !== "") {
                     url += "wp=<?php echo esc_js(sanitize_text_field($_POST['wp_version'])) ?>&";
                 }
-                if ("<?php echo sanitize_text_field($_POST['php_version']) ?>" !== "") {
+                if ("<?php echo esc_html(sanitize_text_field($_POST['php_version'])) ?>" !== "") {
                     url += "php=<?php echo esc_js(sanitize_text_field($_POST['php_version'])) ?>&";
                 }
 
                 url += "url=/wp-admin/index.php&mode=seamless";
 
-                <?php if (isset($_POST['storage_persistent']) && $_POST['storage_persistent'] === 'persistent'): ?>
+                <?php if (isset($_POST['storage_persistent']) && sanitize_text_field($_POST['storage_persistent']) === 'persistent'): ?>
+
                     url += "&storage=persistent";
                 <?php else: ?>
                     url += "&storage=temporary";
@@ -312,7 +313,7 @@ function toys_generator_page() {
         }
 
         // Open the URL in a new window
-        echo "<script>window.open('$url');</script>";
+        echo "<script>window.open('" . esc_js($url) . "');</script>";
     }
 
     ?>
