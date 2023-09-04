@@ -15,10 +15,12 @@ These are the toys we have available:
 
 ---
 
+### Resources
+WordPress Plugin Repository: https://wordpress.org/plugins/toys-for-playground/
+
+---
+
 ### Requirements
 
 - WordPress 5.9+
 - PHP 5.6+
-
-### Resources
-WordPress Theme Repository: https://wordpress.org/plugins/toys-for-playground/
