@@ -2,8 +2,8 @@
 /*
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
-Description: Useful, and fun, toys to enjoy a day at WordPress Playground. At this moment we have the "Cloner" and "Generator" toys.
-Version: 1.0.8
+Description: Toys for Playground allows you to set up development, training and testing environments in WordPress Playground without having to learn how to use the API.
+Version: 1.1.2
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 5.6
@@ -66,18 +66,30 @@ function toys_plugin_menu() {
 function toys_playground_page() {
     ?>
     <div class="wrap">
-        <h1>Toys for Playground</h1>
+        <h1><?php esc_html_e('Toys for Playground', 'toys-for-playground'); ?></h1>
 
         <div class="tool-box">
-            <h2>Cloner</h2>
-            <p>Clone your site with all its plugins and themes to the WordPress Playground.</p>
-            <a href="admin.php?page=toys-cloner" class="button">Play with Cloner</a>
+            <h2><?php esc_html_e('Cloner', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Clone your site with its theme and all its plugins in Playground.', 'toys-for-playground'); ?></p>
+            <a href="admin.php?page=toys-cloner" class="button"><?php esc_html_e('Play with Cloner', 'toys-for-playground'); ?></a>
         </div>
 
         <div class="tool-box">
-            <h2>Generator</h2>
-            <p>Create a WordPress Playground from scratch, with the plugins and themes you want.</p>
-            <a href="admin.php?page=toys-generator" class="button">Play with Generator</a>
+            <h2><?php esc_html_e('Generator', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Create a Playground from scratch, with the theme and plugins you want.', 'toys-for-playground'); ?></p>
+            <a href="admin.php?page=toys-generator" class="button"><?php esc_html_e('Play with Generator', 'toys-for-playground'); ?></a>
+        </div>
+
+        <div class="tool-box">
+            <h2><?php esc_html_e('Plugin Explorer', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Explore any WordPress plugin, in Playground, directly from the WordPress plugins repository.', 'toys-for-playground'); ?></p>
+            <a href="plugin-install.php" class="button"><?php esc_html_e('Play with Plugin Explorer', 'toys-for-playground'); ?></a>
+        </div>
+
+        <div class="tool-box">
+            <h2><?php esc_html_e('Theme Explorer', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Explore any WordPress theme, in Playground, directly from the WordPress themes repository.', 'toys-for-playground'); ?></p>
+            <a href="theme-install.php" class="button"><?php esc_html_e('Play with Theme Explorer', 'toys-for-playground'); ?></a>
         </div>
     </div>
     <?php
@@ -87,7 +99,7 @@ function toys_playground_page() {
 // Callback function for Cloner page
 function toys_cloner_page() {
     echo "<div class='wrap'>";
-    echo "<h1>Cloner</h1>";
+    echo "<h1>" . esc_html__('Cloner', 'toys-for-playground') . "</h1>";
 
     // Retrieve all plugins and themes, both active and inactive.
     function toyspg_get_all_plugins() {
@@ -140,65 +152,71 @@ function toys_cloner_page() {
         $themes = toyspg_get_all_themes();
 
         // Define WordPress and PHP versions.
-        $wp_versions = ['5.9', '6.0', '6.1', '6.2', 'latest'];
+        $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'latest'];
         $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', 'latest'];
 
         ob_start(); ?>
 
         <div class="notice notice-warning">
-            <p>Alert: Uncheck all non-repository plugins or themes (e.g. premium or custom). WordPress Playground cannot install these, causing potential issues.</p>
+            <p><?php esc_html_e('Alert: Uncheck all non-repository plugins or themes (e.g. premium or custom). WordPress Playground cannot install these, causing potential issues.', 'toys-for-playground'); ?></p>
         </div>
 
         <form method="post" action="">
         <?php wp_nonce_field("toys_for_playground_action", "toys_for_playground_nonce"); ?>
-            <h2>Active Plugins</h2>
-            <p>This list shows all the <strong>active plugins</strong> of your WordPress installation, which will appear checked by default.</p>
+            <h2><?php esc_html_e('Active Plugins', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('This list shows all the active plugins of your WordPress installation, which will appear checked by default.', 'toys-for-playground'); ?></p>
+
             <?php foreach($plugins['active'] as $plugin): ?>
                 <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" checked /> <?php echo esc_html($plugin['Name']) ?><br/>
             <?php endforeach; ?>
 
-            <h2>Inactive Plugins</h2>
-            <p>This list shows all the <strong>inactive plugins</strong> of your WordPress installation, which will appear unchecked by default.</p>
+            <h2><?php esc_html_e('Inactive Plugins', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('This list shows all the inactive plugins of your WordPress installation, which will appear unchecked by default.', 'toys-for-playground'); ?></p>
+
             <?php foreach($plugins['inactive'] as $plugin): ?>
                 <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" /> <?php echo esc_html($plugin['Name']) ?><br/>
             <?php endforeach; ?>
 
-            <h2>Active Theme</h2>
-            <p>This list shows all the <strong>active themes</strong> of your WordPress installation, which will appear checked by default.</p>
+            <h2><?php esc_html_e('Active Theme', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('This list shows all the active themes of your WordPress, which will appear checked by default. WordPress Playground only allows you to upload one theme per request.', 'toys-for-playground'); ?></p>
+
             <?php foreach($themes['active'] as $theme): ?>
                 <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" checked /> <?php echo esc_html($theme['name']) ?><br/>
             <?php endforeach; ?>
 
-            <h2>Inactive Themes</h2>
-            <p>This list shows all the <strong>inactive themes</strong> of your WordPress installation, which will appear unchecked by default.</p>
+            <h2><?php esc_html_e('Inactive Themes', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('This list shows all the inactive themes of your WordPress, which will appear unchecked by default. WordPress Playground only allows you to upload one theme per request.', 'toys-for-playground'); ?></p>
+
             <?php foreach($themes['inactive'] as $theme): ?>
                 <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" /> <?php echo esc_html($theme['name']) ?><br/>
             <?php endforeach; ?>
 
-            <h2>WordPress Version</h2>
-            <p>Select which WordPress version you want to have on the WordPress Playground installation that will be generated.</p>
+            <h2><?php esc_html_e('WordPress Version', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select which WordPress version you want to have on the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
+
             <select name="wp_version">
-                <option value="">WP Version</option>
+                <option value=""><?php esc_html_e('WP Version', 'toys-for-playground'); ?></option>
                 <?php foreach($wp_versions as $version): ?>
                     <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                 <?php endforeach; ?>
             </select>
 
-            <h2>PHP Version</h2>
-            <p>Select which PHP version you want to have on the WordPress Playground installation that will be generated.</p>
+            <h2><?php esc_html_e('PHP Version', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select which PHP version you want to have on the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
+
             <select name="php_version">
-                <option value="">PHP Version</option>
+                <option value=""><?php esc_html_e('PHP Version', 'toys-for-playground'); ?></option>
                 <?php foreach($php_versions as $version): ?>
                     <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
                 <?php endforeach; ?>
             </select>
 
-            <h2>Storage</h2>
-            <p>Select the type of storage for the WordPress Playground installation that will be generated.</p>
+            <h2><?php esc_html_e('Storage', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select the type of storage for the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
             <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" checked>
-            <label for="temporary">Temporary (The changes are lost when refreshing the page).</label><br>
+            <label for="temporary"><?php esc_html_e('Temporary (The changes are lost when refreshing the page).', 'toys-for-playground'); ?></label><br>
             <input type="checkbox" id="persistent" name="storage_persistent" value="persistent">
-            <label for="persistent">Persistent (The changes are not lost when refreshing, but they are when the tab is closed, even if the browser is still open).</label><br>
+            <label for="persistent"><?php esc_html_e('Persistent (The changes are not lost when refreshing, but they are when the tab is closed, even if the browser is still open).', 'toys-for-playground'); ?></label><br>
 
             <script>
                 // JavaScript to handle the behaviour of storage checkboxes
@@ -220,19 +238,19 @@ function toys_cloner_page() {
             </script>
 
             <br/>
-            <h2>Clone in Playground</h2>
-            <p>This will open a new window in your browser. If it doesn't happen, <strong>allow opening pop-up windows from your browser</strong>.</p>
+            <h2><?php esc_html_e('Clone in Playground', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e("This will open a new window in your browser. If it doesn't happen, allow opening pop-up windows from your browser.", 'toys-for-playground'); ?></p>
             <input type="submit" name="generate" class="button button-primary" value="Clone" />
         </form>
         <?php if (current_user_can('manage_options') && isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action")): ?>
             <script>
                 var url = "https://playground.wordpress.net/?";
                 <?php $_POST['plugins'] = array_map('sanitize_text_field', (array) $_POST['plugins']);
-foreach($_POST['plugins'] as $plugin_slug): ?>
+                foreach($_POST['plugins'] as $plugin_slug): ?>
                     url += "plugin=<?php echo esc_js(sanitize_key($plugin_slug)) ?>&";
                 <?php endforeach; ?>
                 <?php $_POST['themes'] = array_map('sanitize_text_field', (array) $_POST['themes']);
-foreach($_POST['themes'] as $theme_slug): ?>
+                foreach($_POST['themes'] as $theme_slug): ?>
                     url += "theme=<?php echo esc_js(sanitize_key($theme_slug)) ?>&";
                 <?php endforeach; ?>
 
@@ -246,7 +264,6 @@ foreach($_POST['themes'] as $theme_slug): ?>
                 url += "url=/wp-admin/index.php&mode=seamless";
 
                 <?php if (isset($_POST['storage_persistent']) && sanitize_text_field($_POST['storage_persistent']) === 'persistent'): ?>
-
                     url += "&storage=persistent";
                 <?php else: ?>
                     url += "&storage=temporary";
@@ -265,119 +282,127 @@ foreach($_POST['themes'] as $theme_slug): ?>
 
 // Callback function for Generator page
 function toys_generator_page() {
-    $plugins = get_plugins();
-    $themes = wp_get_themes();
-    $wp_versions = ['5.9', '6.0', '6.1', '6.2', 'latest'];
+    // Define WordPress and PHP versions
+    $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'latest'];
     $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', 'latest'];
-    $storage_temporary = true;
-    $storage_persistent = false;
-
-    if ( isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action") ) {
-        $selected_plugins = isset($_POST['plugins']) ? explode(',', sanitize_text_field($_POST['plugins'][0])) : [];
-        $selected_themes = isset($_POST['themes']) ? explode(',', sanitize_text_field($_POST['themes'][0])) : [];
-        $selected_wp_version = isset($_POST['wp_version']) ? sanitize_text_field($_POST['wp_version']) : '';
-        $selected_php_version = isset($_POST['php_version']) ? sanitize_text_field($_POST['php_version']) : '';
-        $selected_storage_temporary = isset($_POST['storage_temporary']) ? true : false;
-        $selected_storage_persistent = isset($_POST['storage_persistent']);
-
-        $url = 'https://playground.wordpress.net/?';
-
-        // Add selected plugins to the URL
-        foreach ($selected_plugins as $plugin_slug) {
-            $url .= 'plugin=' . urlencode(trim($plugin_slug)) . '&';
-        }
-
-        // Add selected themes to the URL
-        foreach ($selected_themes as $theme_slug) {
-            $url .= 'theme=' . urlencode(trim($theme_slug)) . '&';
-        }
-
-        // Add selected WordPress version to the URL
-        if (!empty($selected_wp_version)) {
-            $url .= 'wp=' . urlencode(sanitize_text_field($selected_wp_version)) . '&';
-        }
-
-        // Add selected PHP version to the URL
-        if (!empty($selected_php_version)) {
-            $url .= 'php=' . urlencode(sanitize_text_field($selected_php_version)) . '&';
-        }
-
-        // Add seamless mode parameter
-        $url .= 'url=/wp-admin/index.php&mode=seamless';
-
-        // Add selected storage option to the URL
-        if ($selected_storage_persistent) {
-            $url .= '&storage=persistent';
-        } else {
-            $url .= '&storage=temporary';
-        }
-
-        // Open the URL in a new window
-        echo "<script>window.open('" . esc_js($url) . "');</script>";
-    }
-
-    ?>
+?>
     <div class="wrap">
-        <h1>Generator</h1>
+        <h1><?php echo esc_html__('Generator', 'toys-for-playground'); ?></h1>
 
-        <div class="tool-box">
-            <h2>Plugins</h2>
-            <p>Enter the slugs of the plugins you want to include in WordPress Playground. Separated by comma. No spaces.</p>
-            <form method="post" action="">
-        <?php wp_nonce_field("toys_for_playground_action", "toys_for_playground_nonce"); ?>
-                <input type="text" name="plugins[]" placeholder="Enter plugin slug" /><br/>
-                <!-- Add more input fields if needed for additional plugins -->
+        <!-- HTML Form -->
+        <form method="post" action="">
+            <?php wp_nonce_field('toys_for_playground_action', 'toys_for_playground_nonce'); ?>
 
-                <h2>Themes</h2>
-                <p>Enter the slugs of the themes you want to include in WordPress Playground. Separated by comma. No spaces.</p>
-                <input type="text" name="themes[]" placeholder="Enter theme slug" /><br/>
-                <!-- Add more input fields if needed for additional themes -->
+            <h2><?php echo esc_html__('Plugins', 'toys-for-playground'); ?></h2>
+            <p><?php echo esc_html__('Enter the slugs of the plugins you want to include in WordPress Playground. Separated by comma.', 'toys-for-playground'); ?></p>
+            <input type="text" name="plugins" placeholder="<?php echo esc_attr__('Enter plugin slugs', 'toys-for-playground'); ?>">
 
-                <h2>WordPress Version</h2>
-                <p>Select the WordPress version for the WordPress Playground.</p>
-                <select name="wp_version">
-                    <option value="">WP version</option>
-                    <?php foreach ($wp_versions as $version): ?>
-                        <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
-                    <?php endforeach; ?>
-                </select>
+            <h2><?php echo esc_html__('Theme', 'toys-for-playground'); ?></h2>
+            <p><?php echo esc_html__('Enter the slug of the theme you want to include. WordPress Playground only allows you to upload one theme per request.', 'toys-for-playground'); ?></p>
+            <input type="text" name="theme" placeholder="<?php echo esc_attr__('Enter theme slug', 'toys-for-playground'); ?>">
 
-                <h2>PHP Version</h2>
-                <p>Select the PHP version for the WordPress Playground.</p>
-                <select name="php_version">
-                    <option value="">Select PHP version</option>
-                    <?php foreach ($php_versions as $version): ?>
-                        <option value="<?php echo esc_attr($version) ?>"><?php echo esc_html($version) ?></option>
-                    <?php endforeach; ?>
-                </select>
+            <h2><?php echo esc_html__('WordPress Version', 'toys-for-playground'); ?></h2>
+            <p><?php echo esc_html__('Select which WordPress version you want to have on the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
+            <select name="wp_version">
+                <option value=""><?php echo esc_html__('WP Version', 'toys-for-playground'); ?></option>
+                <?php foreach ($wp_versions as $version): ?>
+                    <option value="<?php echo esc_attr($version); ?>"><?php echo esc_html($version); ?></option>
+                <?php endforeach; ?>
+            </select>
 
-                <h2>Storage</h2>
-                <p>Select the type of storage for the WordPress Playground.</p>
-                <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" <?php echo $storage_temporary ? 'checked' : '' ?>>
-                <label for="temporary">Temporary (The changes are lost when refreshing the page)</label><br>
-                <input type="checkbox" id="persistent" name="storage_persistent" value="persistent" <?php echo $storage_persistent ? 'checked' : '' ?>>
-                <label for="persistent">Persistent (The changes are not lost when refreshing, but they are when the tab is closed, even if the browser is still open)</label><br>
-                <br/>
+            <h2><?php echo esc_html__('PHP Version', 'toys-for-playground'); ?></h2>
+            <p><?php echo esc_html__('Select which PHP version you want to have on the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
+            <select name="php_version">
+                <option value=""><?php echo esc_html__('PHP Version', 'toys-for-playground'); ?></option>
+                <?php foreach ($php_versions as $version): ?>
+                    <option value="<?php echo esc_attr($version); ?>"><?php echo esc_html($version); ?></option>
+                <?php endforeach; ?>
+            </select>
 
-                <script>
-                // JavaScript to handle the behavior of storage checkboxes
+            <h2><?php echo esc_html__('Storage', 'toys-for-playground'); ?></h2>
+            <p><?php echo esc_html__('Select the type of storage for the WordPress Playground installation that will be generated.', 'toys-for-playground'); ?></p>
+
+            <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" checked>
+            <label for="temporary"><?php echo esc_html__('Temporary (The changes are lost when refreshing the page).', 'toys-for-playground'); ?></label><br>
+
+            <input type="checkbox" id="persistent" name="storage_persistent" value="persistent">
+            <label for="persistent"><?php echo esc_html__('Persistent (The changes are not lost when refreshing, but they are when the tab is closed, even if the browser is still open).', 'toys-for-playground'); ?></label><br>
+
+            <script>
                 document.getElementById('temporary').addEventListener('change', function() {
-                    if (this.checked) {
+                    if(this.checked) {
                         document.getElementById('persistent').checked = false;
+                    } else {
+                        document.getElementById('persistent').checked = true;
                     }
                 });
-
+                
                 document.getElementById('persistent').addEventListener('change', function() {
-                    if (this.checked) {
+                    if(this.checked) {
                         document.getElementById('temporary').checked = false;
+                    } else {
+                        document.getElementById('temporary').checked = true;
                     }
                 });
-                </script>
-                <h2>Generate in Playground</h2>
-                <p>This will open a new window in your browser. If it doesn't happen, <strong>allow opening pop-up windows from your browser</strong>.</p>
-                <input type="submit" name="generate" class="button button-primary" value="Generate" />
-            </form>
-        </div>
+            </script>
+
+            <br/>
+            <h2><?php esc_html_e('Generate in Playground', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e("This will open a new window in your browser. If it doesn't happen, allow opening pop-up windows from your browser.", 'toys-for-playground'); ?></p>
+            <input type="submit" name="generate" class="button button-primary" value="Generate" />
+        </form>
     </div>
+    
     <?php
+    // Build URL using JavaScript, similar to Cloner
+    if (current_user_can('manage_options') && isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action")): ?>
+        <script>
+            var url = "https://playground.wordpress.net/?";
+            <?php $_POST['plugins'] = array_map('sanitize_text_field', explode(',', $_POST['plugins']));
+            foreach($_POST['plugins'] as $plugin_slug): ?>
+                url += "plugin=<?php echo esc_js(sanitize_key($plugin_slug)) ?>&";
+            <?php endforeach; ?>
+
+            <?php $_POST['theme'] = sanitize_text_field($_POST['theme']); ?>
+            url += "theme=<?php echo esc_js(sanitize_key($_POST['theme'])) ?>&";
+
+            <?php $_POST['wp_version'] = sanitize_text_field($_POST['wp_version']); ?>
+            if ("<?php echo $_POST['wp_version'] ?>" !== "") {
+                url += "wp=<?php echo esc_js($_POST['wp_version']) ?>&";
+            }
+
+            <?php $_POST['php_version'] = sanitize_text_field($_POST['php_version']); ?>
+            if ("<?php echo $_POST['php_version'] ?>" !== "") {
+                url += "php=<?php echo esc_js($_POST['php_version']) ?>&";
+            }
+
+            url += "url=/wp-admin/index.php&mode=seamless";
+
+            <?php if (isset($_POST['storage_persistent']) && sanitize_text_field($_POST['storage_persistent']) === 'persistent'): ?>
+                url += "&storage=persistent";
+            <?php else: ?>
+                url += "&storage=temporary";
+            <?php endif; ?>
+
+            window.open(url);
+        </script>
+    <?php endif;
 }
+
+// Enqueue the Plugin Explorer script
+function toys_for_playground_explorer_enqueue_scripts($hook) {
+    if ('plugin-install.php' != $hook) {
+        return;
+    }
+    wp_enqueue_script('toys-for-playground-explorer-script', plugin_dir_url(__FILE__) . 'plugin-explorer.js', array('jquery'), '1.0.0', true);
+}
+add_action('admin_enqueue_scripts', 'toys_for_playground_explorer_enqueue_scripts');
+
+// Enqueue the Theme Explorer script
+function toys_for_playground_theme_explorer_enqueue_scripts($hook) {
+    if ('theme-install.php' != $hook) {
+        return;
+    }
+    wp_enqueue_script('toys-for-playground-theme-explorer-script', plugin_dir_url(__FILE__) . 'theme-explorer.js', array('jquery'), '1.0.0', true);
+}
+add_action('admin_enqueue_scripts', 'toys_for_playground_theme_explorer_enqueue_scripts');

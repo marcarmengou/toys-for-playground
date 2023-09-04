@@ -1,8 +1,25 @@
 == Changelog ==
 
-= 1.0.8 =
+= 1.1.2 =
+
+* 2023-04-09
+* Added plugin information and images
+* More visible buttons in directories
+* Some corrections
+
+= 1.1.1 =
 
 * 2023-03-09
+* Internationalization ready
+* Added WP 6.3 WP selector in toys
+* Added Plugin Explorer
+* Added Theme Explorer
+* Rewritted the Generator toy
+* Some corrections
+
+= 1.0.8 =
+
+* 2023-02-09
 * Security improvements
 
 = 1.0.7 =
