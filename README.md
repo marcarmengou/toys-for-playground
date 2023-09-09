@@ -1,26 +1,23 @@
 # Toys for Playground
 
-Toys for Playground allows you to set up development, training and testing environments in WordPress Playground without having to learn how to use the API.
+**Toys for Playground allows you to set up development, training, and testing environments in WordPress Playground easily. No Playground API knowledge needed.**
 
-With a few clicks, you can generate a new WordPress environment in Playground with the theme, plugins, WordPress versions and PHP versions you want.
+Generate a custom WordPress setup in Playground with just a few clicks, including theme, plugins, and the WordPress and PHP versions that you need.
 
-It can be useful for developers, trainers and users who want to test different configurations without affecting their production site. No local installations. Everything in the browser.
+Can be useful for developers, trainers, and testers. Test configurations risk-free, entirely in your browser.
 
-These are the toys we have available:
+Available toys:
 
-- **Cloner**: Clone your site, with its theme and all its plugins, in WordPress Playground. 
+- **Cloner**: Clone site, theme, and plugins to Playground.
 - **Generator**: Create a Playground from scratch, with the theme and plugins you want.
-- **Plugin Explorer**: Explore any WordPress plugin, in Playground, directly from the WordPress plugins repository.
-- **Theme Explorer**: Explore any WordPress theme, in Playground, directly from the WordPress themes repository.
+- **Plugin Explorer**: Explore any plugin directly from WordPress repository in Playground.
+- **Theme Explorer**: Explore any theme directly from WordPress repository in Playground.
 
----
-
-### Resources
+## Resources
 WordPress Plugin Repository: https://wordpress.org/plugins/toys-for-playground/
 
----
-
-### Requirements
+## Requirements
 
 - WordPress 5.9+
 - PHP 5.6+
+  
