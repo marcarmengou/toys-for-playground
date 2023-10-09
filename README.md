@@ -12,6 +12,7 @@ Available toys:
 - **Generator**: Create a Playground from scratch, with the theme and plugins you want.
 - **Plugin Explorer**: Explore any plugin directly from WordPress repository in Playground.
 - **Theme Explorer**: Explore any theme directly from WordPress repository in Playground.
+- **Sharer**: Generate Playground link of your current page for debugging or sharing.
 
 ## Resources
 WordPress Plugin Repository: https://wordpress.org/plugins/toys-for-playground/
