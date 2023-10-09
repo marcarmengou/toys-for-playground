@@ -3,7 +3,7 @@
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
 Description: Toys for Playground allows you to set up development, training, and testing environments in WordPress Playground easily. No Playground API knowledge needed.
-Version: 1.1.5
+Version: 1.1.8
 Requires at least: 5.9
 Tested up to: 6.3
 Requires PHP: 5.6
@@ -41,24 +41,24 @@ function toys_plugin_menu() {
         'dashicons-superhero'      // Icon URL or dashicon class
     );
 
-    // Add the "Cloner" submenu item under "Playground"
+    // Register "Cloner" as a hidden submenu
     add_submenu_page(
-        'toys-playground',        // Parent menu slug
-        'Cloner',                 // Page title
-        __('Cloner', 'toys-for-playground'), // Menu title
-        'manage_options',         // Capability required to access
-        'toys-cloner',            // Unique identifier for the page
-        'toys_cloner_page'        // Callback to render the page
+        null,                       // Set parent menu to null to hide the submenu
+        '',                         // Empty Page title
+        '',                         // Empty Menu title
+        'manage_options',           // Capability required to access
+        'toys-cloner',              // Unique identifier for the page
+        'toys_cloner_page'          // Callback to render the page
     );
 
-    // Add the "Generator" submenu item under "Playground"
+    // Register "Generator" as a hidden submenu
     add_submenu_page(
-        'toys-playground',        // Parent menu slug
-        'Generator',              // Page title
-        __('Generator', 'toys-for-playground'), // Menu title
-        'manage_options',         // Capability required to access
-        'toys-generator',         // Unique identifier for the page
-        'toys_generator_page'     // Callback to render the page
+        null,                       // Set parent menu to null to hide the submenu
+        '',                         // Empty Page title
+        '',                         // Empty Menu title
+        'manage_options',           // Capability required to access
+        'toys-generator',           // Unique identifier for the page
+        'toys_generator_page'       // Callback to render the page
     );
 }
 
@@ -90,10 +90,35 @@ function toys_playground_page() {
             <h2><?php esc_html_e('Theme Explorer', 'toys-for-playground'); ?></h2>
             <p><?php esc_html_e('Explore any theme directly from the WordPress repository in Playground.', 'toys-for-playground'); ?></p>
             <a href="theme-install.php" class="button"><?php esc_html_e('Play with Theme Explorer', 'toys-for-playground'); ?></a>
+        </div>        
+        
+        <div class="tool-box">
+            <h2><?php esc_html_e('Sharer', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Generate a Playground link of your current WordPress page for debugging or sharing.', 'toys-for-playground'); ?></p>
+            
+            <form method="post" action="">
+                <input type="hidden" name="toggle_sharer" value="<?php echo get_option('enable_sharer', 0) ? '0' : '1'; ?>">
+                <input type="submit" class="button" value="<?php echo get_option('enable_sharer', 0) ? esc_html_e('Disable Sharer', 'toys-for-playground') : esc_html_e('Enable Sharer', 'toys-for-playground'); ?>">
+            </form>
         </div>
     </div>
     <?php
 }
+
+// Handle form submission for Sharer tool
+if (isset($_POST['toggle_sharer'])) {
+    $new_sharer_status = intval($_POST['toggle_sharer']);
+    update_option('enable_sharer', $new_sharer_status);
+}
+
+// Function to include sharer.php in the footer
+function toys_include_sharer_in_footer() {
+    if (get_option('enable_sharer') == 1) {
+        include_once(plugin_dir_path(__FILE__) . 'sharer.php');
+    }
+}
+add_action('admin_footer', 'toys_include_sharer_in_footer');  // For admin area
+
 
 // Function shown by the Cloner toy
 function toys_cloner_page() {

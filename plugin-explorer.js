@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
     function addPlaygroundButton() {
         $('.install-now').each(function() {
-            // Evitar añadir múltiples botones Playground al mismo plugin
+            // Avoid adding multiple Playground buttons to the same plugin
             if ($(this).prev().hasClass('button') && $(this).prev().text() === 'Playground') {
                 return;
             }
@@ -13,10 +13,10 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // Llama a la función al cargar la página
+    // Calls the function on page load
     addPlaygroundButton();
 
-    // Escucha eventos AJAX y vuelve a llamar a la función
+    // Listen for AJAX events and call the function again.
     $(document).ajaxComplete(function() {
         addPlaygroundButton();
     });

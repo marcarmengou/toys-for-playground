@@ -2,10 +2,10 @@
 Contributors: marc4
 Tags: playground
 Requires at least: 5.9
-Tested up to: 6.3
+Tested up to: 6.3.1
 Requires PHP: 5.9
 Tested PHP: 8.2
-Stable tag: 1.1.5
+Stable tag: 1.1.8
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,12 +33,29 @@ Explore any plugin directly from WordPress repository in Playground.
 **Theme Explorer**
 Explore any theme directly from WordPress repository in Playground.
 
+**Sharer**
+Generate Playground link of your current page for debugging or sharing.
+
 == Installation ==
 
 1. Use the Add New Plugin in the WordPress Admin area
 2. Activate the plugin through the Plugins menu in WordPress
 
 == Changelog ==
+
+= 1.1.8 =
+
+* 2023-15-09
+* Added Sharer toy
+* Added nightly param
+* Added uninstall.php
+* Minor corrections
+
+= 1.1.6 =
+
+* 2023-08-09
+* Hidden submenus
+* Some usability fixes
 
 = 1.1.5 =
 

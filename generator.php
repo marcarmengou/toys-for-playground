@@ -1,7 +1,7 @@
 <?php
     // Define WordPress and PHP versions
-    $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'latest'];
-    $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', 'latest'];
+    $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'nightly'];
+    $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2'];
 ?>
     <div class="wrap">
         <h1><?php echo esc_html__('Generator', 'toys-for-playground'); ?></h1>
@@ -12,11 +12,11 @@
 
             <h2><?php echo esc_html__('Plugins', 'toys-for-playground'); ?></h2>
             <p><?php echo esc_html__('Enter plugin slugs for Playground, separated by commas.', 'toys-for-playground'); ?></p>
-            <input type="text" name="plugins" placeholder="<?php echo esc_attr__('Enter plugin slugs', 'toys-for-playground'); ?>">
+            <input type="text" name="plugins" placeholder="<?php echo esc_attr__('Plugin slugs', 'toys-for-playground'); ?>">
 
             <h2><?php echo esc_html__('Theme', 'toys-for-playground'); ?></h2>
             <p><?php echo esc_html__('Enter the theme slug. API allow only one theme per Playground request.', 'toys-for-playground'); ?></p>
-            <input type="text" name="theme" placeholder="<?php echo esc_attr__('Enter theme slug', 'toys-for-playground'); ?>">
+            <input type="text" name="theme" placeholder="<?php echo esc_attr__('Theme slug', 'toys-for-playground'); ?>">
 
             <h2><?php echo esc_html__('WordPress Version', 'toys-for-playground'); ?></h2>
             <p><?php echo esc_html__('Select the WordPress version for your generated Playground.', 'toys-for-playground'); ?></p>
@@ -64,9 +64,8 @@
             </script>
 
             <br/>
-            <h2><?php esc_html_e('Generate in Playground', 'toys-for-playground'); ?></h2>
+            <input type="submit" name="generate" class="button button-primary button-hero" value="<?php esc_attr_e('Generate', 'toys-for-playground'); ?>" />
             <p><?php esc_html_e("Opens in a new window. Enable pop-ups in your browser if it doesn't.", 'toys-for-playground'); ?></p>
-            <input type="submit" name="generate" class="button button-primary" value="Generate" />
         </form>
     </div>
     

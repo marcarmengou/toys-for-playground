@@ -1,6 +1,6 @@
+<div class='wrap'>
+    <h1><?php esc_html_e('Cloner', 'toys-for-playground'); ?></h1>
 <?php
-    echo "<div class='wrap'>";
-    echo "<h1>" . esc_html__('Cloner', 'toys-for-playground') . "</h1>";
 
     // Retrieve all plugins and themes, both active and inactive.
     function toyspg_get_all_plugins() {
@@ -55,8 +55,8 @@
         $themes = toyspg_get_all_themes();
 
         // Define WordPress and PHP versions.
-        $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'latest'];
-        $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', 'latest'];
+        $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'nightly'];
+        $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2'];
 
         ob_start(); ?>
 
@@ -70,28 +70,28 @@
             <p><?php esc_html_e('Active plugins are checked by default.', 'toys-for-playground'); ?></p>
 
             <?php foreach($plugins['active'] as $plugin): ?>
-                <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" checked /> <?php echo esc_html($plugin['Name']) ?><br/>
+                <label><input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" checked /> <?php echo esc_html($plugin['Name']) ?></label><br/>
             <?php endforeach; ?>
 
             <h2><?php esc_html_e('Inactive Plugins', 'toys-for-playground'); ?></h2>
             <p><?php esc_html_e('Inactive plugins are unchecked by default.', 'toys-for-playground'); ?></p>
 
             <?php foreach($plugins['inactive'] as $plugin): ?>
-                <input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" /> <?php echo esc_html($plugin['Name']) ?><br/>
+                <label><input type="checkbox" name="plugins[]" value="<?php echo esc_attr($plugin['slug']) ?>" /> <?php echo esc_html($plugin['Name']) ?></label><br/>
             <?php endforeach; ?>
 
             <h2><?php esc_html_e('Active Theme', 'toys-for-playground'); ?></h2>
             <p><?php esc_html_e('Active theme are checked by default. Only one theme can be uploaded per Playground API request.', 'toys-for-playground'); ?></p>
 
             <?php foreach($themes['active'] as $theme): ?>
-                <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" checked /> <?php echo esc_html($theme['name']) ?><br/>
+                <label><input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" checked /> <?php echo esc_html($theme['name']) ?></label><br/>
             <?php endforeach; ?>
 
             <h2><?php esc_html_e('Inactive Themes', 'toys-for-playground'); ?></h2>
             <p><?php esc_html_e('Inactive themes are unchecked by default. Only one theme can be uploaded per Playground API request.', 'toys-for-playground'); ?></p>
 
             <?php foreach($themes['inactive'] as $theme): ?>
-                <input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" /> <?php echo esc_html($theme['name']) ?><br/>
+                <label><input type="checkbox" name="themes[]" value="<?php echo esc_attr($theme['slug']) ?>" /> <?php echo esc_html($theme['name']) ?></label><br/>
             <?php endforeach; ?>
 
             <h2><?php esc_html_e('WordPress Version', 'toys-for-playground'); ?></h2>
@@ -141,9 +141,8 @@
             </script>
 
             <br/>
-            <h2><?php esc_html_e('Clone in Playground', 'toys-for-playground'); ?></h2>
+            <input type="submit" name="generate" class="button button-primary button-hero" value="<?php esc_attr_e('Clone', 'toys-for-playground'); ?>" />
             <p><?php esc_html_e("Opens in a new window. Enable pop-ups in your browser if it doesn't.", 'toys-for-playground'); ?></p>
-            <input type="submit" name="generate" class="button button-primary" value="Clone" />
         </form>
         <?php if (current_user_can('manage_options') && isset($_POST["generate"]) && wp_verify_nonce($_POST["toys_for_playground_nonce"], "toys_for_playground_action")): ?>
             <script>
