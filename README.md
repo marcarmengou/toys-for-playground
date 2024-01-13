@@ -19,6 +19,6 @@ WordPress Plugin Repository: https://wordpress.org/plugins/toys-for-playground/
 
 ## Requirements
 
-- WordPress 5.9+
-- PHP 5.6+
-  
+- WordPress 6.0+
+- PHP 7.0+
+- License: GPLv2 or later
