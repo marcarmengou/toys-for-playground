@@ -95,10 +95,10 @@ if (current_user_can('manage_options')) {
         z-index: 9999;
     }
     #pluginModal {
-    max-height: 80vh;  /* Ocupa hasta el 80% de la altura de la ventana del navegador */
-    height: auto;  /* La altura será automática */
-    overflow-y: auto;  /* Permite el desplazamiento vertical si es necesario */
-    overflow-x: hidden;  /* Deshabilita el desplazamiento horizontal */
+    max-height: 80vh;  /* Occupies up to 80% of the browser window height */
+    height: auto;  /* The height will be automatic */
+    overflow-y: auto;  /* Allows vertical displacement if necessary */
+    overflow-x: hidden;  /* Disables horizontal scrolling */
     }
 </style>
 <div id="sharer-button"><?php _e('Share it on Playground', 'toys-for-playground'); ?></div>
@@ -107,16 +107,18 @@ if (current_user_can('manage_options')) {
 <script type="text/javascript">
     // Localization strings
     var myLocalizedData = {
-        internalPluginPageMessage: "<?php echo esc_js(__('This internal page of the plugin you want to share, which plugin is it from? Check the box and click "Share".', 'toys-for-playground')); ?>",
-        shareButtonText: "<?php echo esc_js(__('Share', 'toys-for-playground')); ?>",
+        internalPluginPageMessage: "<?php echo esc_js(__('Which plugin does this internal page? Check the box and click on "Share..." or "Copy...".', 'toys-for-playground')); ?>",
+        shareButtonText: "<?php echo esc_js(__('Share it on Playground', 'toys-for-playground')); ?>",
+        copyButtonText: "<?php echo esc_js(__('Copy Playground URL', 'toys-for-playground')); ?>",
         cancelButtonText: "<?php echo esc_js(__('Cancel', 'toys-for-playground')); ?>"
     };
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
     if (sharerEnabled) {
         var sharerButton = document.getElementById('sharer-button');
+        var copyButton = document.getElementById('copy-button');
         var pluginModal = document.getElementById('pluginModal');
         
         if (sharerButton) {
@@ -125,23 +127,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
         sharerButton.addEventListener('click', function() {
             if (isWPPage) {
-                // If it's a WordPress page, directly construct the Playground URL
+                // If it's a WordPress page, build the Playground URL directly
                 var currentUrl = new URL(window.location.href);
                 var currentPathname = currentUrl.pathname;
                 var searchParams = currentUrl.search;
-                var playgroundUrl = 'https://playground.wordpress.net/?url=' + currentPathname + searchParams + '&mode=seamless&storage=opfs-browser';
+                var playgroundUrl = 'https://playground.wordpress.net/?url=' + currentPathname + searchParams + '&mode=seamless&storage=browser';
                 window.open(playgroundUrl, '_blank');
                 return;
             }
             
-            // If it's a plugin page
-            var modalContent = myLocalizedData.internalPluginPageMessage + '<br><br>';  // Using the localization string
+            // If it is a plugin page
+            var modalContent = myLocalizedData.internalPluginPageMessage + '<br><br>';
             allPlugins.forEach(function(plugin) {
                 var sanitizedPluginName = plugin.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 modalContent += '<input type="radio" name="plugin" value="' + plugin.slug + '"> ' + sanitizedPluginName + '<br><br>';
             });
-            modalContent += '<button id="goButton" class="button button-secondary">' + myLocalizedData.shareButtonText + '</button>';  // Using the localization string
-            modalContent += '<button id="cancelButton" class="button button-secondary" style="margin-left: 10px;">' + myLocalizedData.cancelButtonText + '</button>';  // Using the localization string
+            modalContent += '<button id="goButton" class="button button-secondary">' + myLocalizedData.shareButtonText + '</button>';
+            modalContent += '<button id="copyToClipboardButton" class="button button-secondary" style="margin-left: 10px;">' + myLocalizedData.copyButtonText + '</button>';
+            modalContent += '<button id="cancelButton" class="button button-secondary" style="margin-left: 10px;">' + myLocalizedData.cancelButtonText + '</button>';
+            
             pluginModal.innerHTML = modalContent;
             pluginModal.style.display = 'block';
 
@@ -152,17 +156,42 @@ document.addEventListener("DOMContentLoaded", function() {
                 var searchParams = currentUrl.search;
                 var mode = currentPathname.indexOf('/wp-admin/') !== -1 ? 'seamless' : 'other_mode';
                 
-                var playgroundUrl = 'https://playground.wordpress.net/?plugin=' + selectedPlugin + '&url=' + currentPathname + searchParams + '&mode=' + mode + '&storage=opfs-browser';
+                var playgroundUrl = 'https://playground.wordpress.net/?plugin=' + selectedPlugin + '&url=' + currentPathname + searchParams + '&mode=' + mode + '&storage=browser';
                 
                 window.open(playgroundUrl, '_blank');
                 pluginModal.style.display = 'none';
             });
 
-            // Add a click event to the Cancel button
+            // Handle "Copy" button click event to copy URL to clipboard
+            document.getElementById('copyToClipboardButton').addEventListener('click', function() {
+                var selectedPlugin = document.querySelector('input[name="plugin"]:checked').value;
+                var currentUrl = new URL(window.location.href);
+                var currentPathname = currentUrl.pathname;
+                var searchParams = currentUrl.search;
+                var mode = currentPathname.indexOf('/wp-admin/') !== -1 ? 'seamless' : 'other_mode';
+                
+                var playgroundUrl = 'https://playground.wordpress.net/?plugin=' + selectedPlugin + '&url=' + currentPathname + searchParams + '&mode=' + mode + '&storage=browser';
+                
+                // Logic for copying the generated URL to the clipboard
+                copyToClipboard(playgroundUrl);
+            });
+
+            // Handling the "Cancel" button click event
             document.getElementById('cancelButton').addEventListener('click', function() {
                 pluginModal.style.display = 'none';
             });
         });
     }
 });
+
+// Copy to clipboard function
+function copyToClipboard(text) {
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
 </script>

@@ -1,11 +1,11 @@
 === Toys for Playground ===
 Contributors: marc4
 Tags: playground
-Requires at least: 5.9
-Tested up to: 6.3.1
-Requires PHP: 5.9
-Tested PHP: 8.2
-Stable tag: 1.1.8
+Requires at least: 6.0
+Tested up to: 6.4.2
+Requires PHP: 7.0
+Tested PHP: 8.3
+Stable tag: 1.2.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,19 @@ Generate Playground link of your current page for debugging or sharing.
 2. Activate the plugin through the Plugins menu in WordPress
 
 == Changelog ==
+
+= 1.2.0 =
+
+* 2024-13-01
+* Added latest and beta params in WP version selector.
+* Compatibility: WordPress 6.0 - WordPress 6.4
+* Compatibility: PHP 7.0 - PHP 8.3
+
+= 1.1.9 =
+
+* 2023-10-10
+* Added Copy button in Sharer toy modal.
+* Update new Storage params
 
 = 1.1.8 =
 

@@ -55,8 +55,8 @@
         $themes = toyspg_get_all_themes();
 
         // Define WordPress and PHP versions.
-        $wp_versions = ['5.9', '6.0', '6.1', '6.2', '6.3', 'nightly'];
-        $php_versions = ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2'];
+        $wp_versions = ['6.0', '6.1', '6.2', '6.3', '6.4', 'nightly', 'latest', 'beta'];
+        $php_versions = ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3'];
 
         ob_start(); ?>
 
@@ -116,26 +116,26 @@
 
             <h2><?php esc_html_e('Storage', 'toys-for-playground'); ?></h2>
             <p><?php esc_html_e('Select the storage type for your generated Playground.', 'toys-for-playground'); ?></p>
-            <input type="checkbox" id="temporary" name="storage_temporary" value="temporary" checked>
-            <label for="temporary"><?php esc_html_e('Temporary (Changes lost on page refresh).', 'toys-for-playground'); ?></label><br>
-            <input type="checkbox" id="persistent" name="storage_persistent" value="persistent">
-            <label for="persistent"><?php esc_html_e('Persistent (Can page refresh, but changes lost on tab closes).', 'toys-for-playground'); ?></label><br>
+            <input type="checkbox" id="none" name="storage_none" value="none" checked>
+            <label for="none"><?php esc_html_e('None: changes will be lost on page refresh.', 'toys-for-playground'); ?></label><br>
+            <input type="checkbox" id="browser" name="storage_browser" value="browser">
+            <label for="browser"><?php esc_html_e('Browser: stored in this browser (cookies).', 'toys-for-playground'); ?></label><br>
 
             <script>
                 // JavaScript to handle the behaviour of storage checkboxes
-                document.getElementById('temporary').addEventListener('change', function() {
+                document.getElementById('none').addEventListener('change', function() {
                     if(this.checked) {
-                        document.getElementById('persistent').checked = false;
+                        document.getElementById('browser').checked = false;
                     } else {
-                        document.getElementById('persistent').checked = true;
+                        document.getElementById('browser').checked = true;
                     }
                 });
 
-                document.getElementById('persistent').addEventListener('change', function() {
+                document.getElementById('browser').addEventListener('change', function() {
                     if(this.checked) {
-                        document.getElementById('temporary').checked = false;
+                        document.getElementById('none').checked = false;
                     } else {
-                        document.getElementById('temporary').checked = true;
+                        document.getElementById('none').checked = true;
                     }
                 });
             </script>
@@ -165,10 +165,10 @@
 
                 url += "url=/wp-admin/index.php&mode=seamless";
 
-                <?php if (isset($_POST['storage_persistent']) && sanitize_text_field($_POST['storage_persistent']) === 'persistent'): ?>
-                    url += "&storage=opfs-browser";
+                <?php if (isset($_POST['storage_browser']) && sanitize_text_field($_POST['storage_browser']) === 'browser'): ?>
+                    url += "&storage=browser";
                 <?php else: ?>
-                    url += "&storage=temporary";
+                    url += "&storage=none";
                 <?php endif; ?>
 
                 window.open(url);
