@@ -1,21 +1,23 @@
 <?php
-// If uninstall not called from WordPress, then exit
+// Exit if uninstall not called from WordPress.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit;
 }
 
-// Check if the current user has permission to delete plugins
+// Ensure only admins can run the uninstall.
 if ( ! current_user_can( 'delete_plugins' ) ) {
     return;
 }
 
 global $wpdb;
 
-// Define the name of the table to be deleted
-$table_name = $wpdb->prefix . 'enable_sharer';
+$table_name = esc_sql( $wpdb->prefix . 'enable_sharer' );
 
-// Execute the query to drop the table
-$wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
+// Safely drop the custom table.
+$sql = $wpdb->prepare( "DROP TABLE IF EXISTS `%s`", $table_name );
 
-// Remove any additional options and custom tables
+// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+$wpdb->query( $sql );
+
+// Remove plugin options.
 delete_option( 'enable_sharer' );

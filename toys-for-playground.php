@@ -3,9 +3,9 @@
 Plugin Name: Toys for Playground
 Plugin URI: https://wordpress.org/plugins/toys-for-playground/
 Description: Toys for Playground allows you to set up development, training, and testing environments in WordPress Playground easily. No Playground API knowledge needed.
-Version: 1.2.0
+Version: 1.2.2
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 7.0
 Tested up to PHP: 8.3
 Author: Marc Armengou
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 // Add settings link to plugin page
 function toys_add_settings_link($links) {
-    $settings_link = '<a href="admin.php?page=toys-playground">' . __('Settings') . '</a>';
+    $settings_link = '<a href="admin.php?page=toys-playground">' . __('Settings', 'toys-for-playground') . '</a>';
     array_unshift($links, $settings_link);
     return $links;
 }
