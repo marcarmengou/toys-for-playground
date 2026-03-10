@@ -1,49 +1,49 @@
 <?php
     // Define WordPress and PHP versions
-    $wp_versions = ['6.0', '6.1', '6.2', '6.3', '6.4', '6.5', '6.6', '6.7', '6.8', 'nightly', 'latest', 'beta'];
-    $php_versions = ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4'];
+    $wp_versions = ['6.3', '6.4', '6.5', '6.6', '6.7', '6.8', '6.9', 'nightly', 'latest', 'beta'];
+    $php_versions = ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5'];
 ?>
     <div class="wrap">
-        <h1><?php echo esc_html__('Generator', 'toys-for-playground'); ?></h1>
+        <h1><?php esc_html_e('Generator', 'toys-for-playground'); ?></h1>
 
         <!-- HTML Form -->
         <form method="post" action="">
             <?php wp_nonce_field('toys_for_playground_action', 'toys_for_playground_nonce'); ?>
 
-            <h2><?php echo esc_html__('Plugins', 'toys-for-playground'); ?></h2>
-            <p><?php echo esc_html__('Enter plugin slugs for Playground, separated by commas.', 'toys-for-playground'); ?></p>
-            <input type="text" name="plugins" placeholder="<?php echo esc_attr__('Plugin slugs', 'toys-for-playground'); ?>">
+            <h2><?php esc_html_e('Plugins', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Enter plugin slugs for Playground, separated by commas.', 'toys-for-playground'); ?></p>
+            <input type="text" name="plugins" placeholder="<?php esc_attr_e('Plugin slugs', 'toys-for-playground'); ?>">
 
-            <h2><?php echo esc_html__('Theme', 'toys-for-playground'); ?></h2>
-            <p><?php echo esc_html__('Enter the theme slug. API allow only one theme per Playground request.', 'toys-for-playground'); ?></p>
-            <input type="text" name="theme" placeholder="<?php echo esc_attr__('Theme slug', 'toys-for-playground'); ?>">
+            <h2><?php esc_html_e('Theme', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Enter the theme slug. API allow only one theme per Playground request.', 'toys-for-playground'); ?></p>
+            <input type="text" name="theme" placeholder="<?php esc_attr_e('Theme slug', 'toys-for-playground'); ?>">
 
-            <h2><?php echo esc_html__('WordPress Version', 'toys-for-playground'); ?></h2>
-            <p><?php echo esc_html__('Select the WordPress version for your generated Playground.', 'toys-for-playground'); ?></p>
+            <h2><?php esc_html_e('WordPress Version', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select the WordPress version for your generated Playground.', 'toys-for-playground'); ?></p>
             <select name="wp_version">
-                <option value=""><?php echo esc_html__('WP Version', 'toys-for-playground'); ?></option>
+                <option value=""><?php esc_html_e('WP Version', 'toys-for-playground'); ?></option>
                 <?php foreach ($wp_versions as $version): ?>
                     <option value="<?php echo esc_attr($version); ?>"><?php echo esc_html($version); ?></option>
                 <?php endforeach; ?>
             </select>
 
-            <h2><?php echo esc_html__('PHP Version', 'toys-for-playground'); ?></h2>
-            <p><?php echo esc_html__('Select the PHP version for your generated Playground.', 'toys-for-playground'); ?></p>
+            <h2><?php esc_html_e('PHP Version', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select the PHP version for your generated Playground.', 'toys-for-playground'); ?></p>
             <select name="php_version">
-                <option value=""><?php echo esc_html__('PHP Version', 'toys-for-playground'); ?></option>
+                <option value=""><?php esc_html_e('PHP Version', 'toys-for-playground'); ?></option>
                 <?php foreach ($php_versions as $version): ?>
                     <option value="<?php echo esc_attr($version); ?>"><?php echo esc_html($version); ?></option>
                 <?php endforeach; ?>
             </select>
 
-            <h2><?php echo esc_html__('Storage', 'toys-for-playground'); ?></h2>
-            <p><?php echo esc_html__('Select the storage type for your generated Playground.', 'toys-for-playground'); ?></p>
+            <h2><?php esc_html_e('Storage', 'toys-for-playground'); ?></h2>
+            <p><?php esc_html_e('Select the storage type for your generated Playground.', 'toys-for-playground'); ?></p>
 
             <input type="checkbox" id="none" name="storage_none" value="none" checked>
-            <label for="none"><?php echo esc_html__('None: changes will be lost on page refresh.', 'toys-for-playground'); ?></label><br>
+            <label for="none"><?php esc_html_e('None: changes will be lost on page refresh.', 'toys-for-playground'); ?></label><br>
 
             <input type="checkbox" id="browser" name="storage_browser" value="browser">
-            <label for="browser"><?php echo esc_html__('Browser: stored in this browser (cookies).', 'toys-for-playground'); ?></label><br>
+            <label for="browser"><?php esc_html_e('Browser: stored in this browser (cookies).', 'toys-for-playground'); ?></label><br>
 
             <script>
                 document.getElementById('none').addEventListener('change', function() {
@@ -79,8 +79,8 @@
                 url += "plugin=<?php echo esc_js(sanitize_key($plugin_slug)) ?>&";
             <?php endforeach; ?>
 
-            <?php $_POST['theme'] = sanitize_text_field($_POST['theme']); ?>
-            url += "theme=<?php echo esc_js(sanitize_key($_POST['theme'])) ?>&";
+            <?php $_POST['theme'] = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : ''; ?>
+            url += "theme=<?php echo esc_js( sanitize_key( $_POST['theme'] ) ); ?>&";
 
             <?php $_POST['wp_version'] = sanitize_text_field($_POST['wp_version']); ?>
             if ("<?php echo $_POST['wp_version'] ?>" !== "") {

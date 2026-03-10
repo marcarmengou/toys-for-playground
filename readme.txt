@@ -1,11 +1,11 @@
 === Toys for Playground ===
 Contributors: marc4
 Tags: playground
-Requires at least: 6.0
-Tested up to: 6.8
-Requires PHP: 7.0
+Requires at least: 6.3
+Tested up to: 6.9
+Requires PHP: 7.4
 Tested PHP: 8.3
-Stable tag: 1.2.2
+Stable tag: 1.2.5
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,31 @@ Generate Playground link of your current page for debugging or sharing.
 3. Install and activate the **Toys for Playground** plugin.
 
 == Changelog ==
+
+= [1.2.5] - 2026-10-03 =
+
+* Security: Escaped Settings link with esc_html__() in plugin action links.
+* Fix: Added isset() guards for $_POST['themes'], $_POST['wp_version'], $_POST['php_version'] in cloner.php to prevent PHP warnings.
+* Fix: Added isset() guard for $_POST['theme'] in generator.php to prevent PHP warnings.
+* Code: Removed unused $plugin_basename variable from cloner.php.
+* Code: cloner.php now starts with <?php and closes the wrap div in HTML.
+* Performance: get_option('enable_sharer') stored in variable to avoid repeated calls.
+
+= [1.2.4] - 2026-10-03 =
+
+* Fix: Corrected uninstall.php — removed incorrect DROP TABLE block.
+* Code: Unified function prefix to toys_for_playground_ across all files.
+* Code: Replaced echo esc_html__() with esc_html_e() in generator.php for consistency.
+* Compatibility: Tested up to WordPress 6.9.
+
+= [1.2.3] - 2026-10-03 =
+
+* Updated WP version selector: 6.3 to 6.9 (removed older versions below 6.3).
+* Updated PHP version selector: 7.4 to 8.5 (removed older versions below 7.4).
+* Added WP 6.9 in WP version selector.
+* Added PHP 8.5 in PHP version selector.
+* Removed changelog.txt file.
+* Improvement: wp_enqueue_script() now uses plugin version constant for cache busting.
 
 = [1.2.2] - 2025-10-15 =
 
